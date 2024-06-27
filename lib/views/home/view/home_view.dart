@@ -20,10 +20,23 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 75),
-            Image.asset(
-              'assets/images/home/Ekran_Resmi_2024-06-26_15.24.40-removebg-preview.png',
-              width: 350,
-              height: 350,
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 80,
+                    offset: const Offset(0, 1),
+                  ),
+                ]
+              ),
+              child: Image.asset(
+                'assets/images/home/Ekran_Resmi_2024-06-26_15.24.40-removebg-preview.png',
+                width: 350,
+                height: 350,
+              ),
             ),
             const SizedBox(height: 15),
             RichText(
@@ -62,7 +75,7 @@ class MyHomePage extends StatelessWidget {
               height: 60,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Get.to(const SignInPage());
+                  Get.to( SignInPage());
                 },
                 icon: const Icon(Icons.email, color: Colors.black),
                 label: const Text('Sign in with E-mail',
@@ -70,7 +83,7 @@ class MyHomePage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),),
                 style: ElevatedButton.styleFrom(
-                  primary: const Color(0xFFFFFFFF),
+                  primary: const Color(0xFFF6F6F6),
                   onPrimary: Colors.black,
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   shape: RoundedRectangleBorder(
@@ -83,7 +96,7 @@ class MyHomePage extends StatelessWidget {
 
             TextButton(
               onPressed: () {
-                Get.to(const SignUpPage());
+                Get.to(SignUpPage());
 
               },
               child: RichText(

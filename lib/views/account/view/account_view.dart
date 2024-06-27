@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:plantist_project/views/login/view/login_view.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUpController extends GetxController {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  var isObscure = true.obs;
+  var message = ''.obs;
 
-  @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  Future<void> signUp(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Get.to(() => SignInPage());
+    } on FirebaseAuthException catch (e) {
+      message.value = 'Failed to register: ${e.message}';
+      Get.snackbar(
+        "Registration Error",
+        e.message ?? "Unknown error",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class SignUpPage extends StatelessWidget {
+  final SignUpController signUpController = Get.put(SignUpController());
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  SignUpPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,53 +51,60 @@ class _SignUpPageState extends State<SignUpPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 20),
-              RichText(
-                text: const TextSpan(
-                  text: 'Sign up with email',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const Text(
+                'Sign up with email',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 15),
-              RichText(
-                text: const TextSpan(
-                  text: 'Enter your email and password',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black54,
-                  ),
+              const Text(
+                'Enter your email and password',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black54,
                 ),
               ),
               const SizedBox(height: 35),
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: 'Email',
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.3),
                   border: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent), ),
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
                 ),
               ),
               const SizedBox(height: 25),
-              TextField(
+              Obx(() => TextField(
+                controller: passwordController,
+                obscureText: signUpController.isObscure.value,
                 decoration: InputDecoration(
                   hintText: 'Password',
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.3),
                   border: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent), ),
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      signUpController.isObscure.value = !signUpController.isObscure.value;
+                    },
+                    icon: Icon(signUpController.isObscure.value ? Icons.visibility_off : Icons.visibility),
+                  ),
                 ),
-              ),
+              )),
               const SizedBox(height: 30),
               SizedBox(
                 width: 350,
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    // todo
+                    signUpController.signUp(emailController.text, passwordController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black87,
@@ -82,21 +113,23 @@ class _SignUpPageState extends State<SignUpPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
-                  ), child: const Text('Create Account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),),
+                  ),
+                  child: const Text(
+                    'Create Account',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 15),
               TextButton(
                 onPressed: () {
-                  // todo
+                  // todo: Privacy Policy
                 },
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: const TextSpan(
-                    text: "By continuing, you agree to our" ,
+                child: const Text.rich(
+                  TextSpan(
+                    text: "By continuing, you agree to our",
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.black54,
@@ -113,9 +146,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       TextSpan(
                         text: ' and',
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
                       ),
                       TextSpan(
                         text: ' Terms of Use.',
@@ -128,8 +158,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ],
                   ),
+                  textAlign: TextAlign.center,
                 ),
-              )
+              ),
             ],
           ),
         ),

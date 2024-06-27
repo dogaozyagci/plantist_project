@@ -1,14 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:plantist_project/views/todo/view/todo_view.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class AuthController extends GetxController {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  var message = ''.obs;
+  var isObscure = true.obs;
 
-  @override
-  State<SignInPage> createState() => _SignInPageState();
+  Future<void> login(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Get.to(() => ToDoPage());
+    } on FirebaseAuthException catch (e) {
+      message.value = 'Failed to login: ${e.message}';
+      Get.snackbar(
+        "Login Error",
+        e.message ?? "Unknown error",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 }
 
-class _SignInPageState extends State<SignInPage> {
-  bool _isObscure = true;
+class SignInPage extends StatelessWidget {
+  final AuthController authController = Get.put(AuthController());
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  SignInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,28 +51,25 @@ class _SignInPageState extends State<SignInPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 20),
-              RichText(
-                text: const TextSpan(
-                  text: 'Sign in with email',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const Text(
+                'Sign in with email',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 15),
-              RichText(
-                text: const TextSpan(
-                  text: 'Enter your email and password',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black54,
-                  ),
+              const Text(
+                'Enter your email and password',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black54,
                 ),
               ),
               const SizedBox(height: 35),
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: 'Email',
                   filled: true,
@@ -60,8 +80,9 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
               const SizedBox(height: 25),
-              TextField(
-                obscureText: _isObscure,
+              Obx(() => TextField(
+                controller: passwordController,
+                obscureText: authController.isObscure.value,
                 decoration: InputDecoration(
                   hintText: 'Password',
                   filled: true,
@@ -71,40 +92,19 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   suffixIcon: IconButton(
                     onPressed: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
+                      authController.isObscure.value = !authController.isObscure.value;
                     },
-                    icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                    icon: Icon(authController.isObscure.value ? Icons.visibility_off : Icons.visibility),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      // todo: Forgot password
-                    },
-                    child: RichText(
-                      text: const TextSpan(
-                        text: "Forgot password?",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.lightBlue,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              )),
               const SizedBox(height: 10),
               SizedBox(
                 width: 350,
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    // todo: Sign in
+                    authController.login(emailController.text, passwordController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
@@ -127,9 +127,8 @@ class _SignInPageState extends State<SignInPage> {
                 onPressed: () {
                   // todo: Privacy Policy
                 },
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: const TextSpan(
+                child: const Text.rich(
+                  TextSpan(
                     text: "By continuing, you agree to our",
                     style: TextStyle(
                       fontSize: 13,
@@ -147,9 +146,6 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       TextSpan(
                         text: ' and',
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
                       ),
                       TextSpan(
                         text: ' Terms of Use.',
@@ -162,6 +158,7 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ],
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
