@@ -38,48 +38,48 @@ class TodoItem extends StatelessWidget {
                 ),
                 //Title & note
                 Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3),
-                      child: Container(
-                        width: 200,
-                        height: 95,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              todo.title,
-                              style: const TextStyle(
-                                fontSize: 17,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-                            //Reminder text
-                            Text(
-                              todo.note,
-                              style: TextStyle(fontSize: 13, color: Colors.black45),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            if (todo.optionalAttachment != null)
-                              Column(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Text('📎 Attachment',
-                                        style: TextStyle(
-                                            fontSize: 13, color: Colors.black45)),
-                                  ),
-                                ],
-                              ),
-                          ],
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3),
+                  child: Container(
+                    width: 200,
+                    height: 95,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          todo.title,
+                          style: const TextStyle(
+                            fontSize: 17,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
+                        const SizedBox(height: 4),
+                        //Reminder text
+                        Text(
+                          todo.note,
+                          style: TextStyle(fontSize: 13, color: Colors.black45),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (todo.optionalAttachment != null)
+                          Column(
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: Text('📎 Attachment',
+                                    style: TextStyle(
+                                        fontSize: 13, color: Colors.black45)),
+                              ),
+                            ],
+                          ),
+                      ],
                     ),
+                  ),
+                ),
                 //Date
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: Container(
                     width: 80,
                     height: 80,
@@ -87,12 +87,12 @@ class TodoItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${todo.dueDate}',
+                          '${todo.day}',
                           style: TextStyle(fontSize: 14, color: Colors.black45),
                           maxLines: 1,
                         ),
                         Text(
-                          '${todo.dueDate.hour}:${todo.dueDate.minute}:${todo.dueDate.second}',
+                          '${todo.hour}',
                           style: TextStyle(fontSize: 14, color: Colors.black45),
                         ),
 
@@ -114,16 +114,16 @@ class TodoItem extends StatelessWidget {
     );
   }
 
-  Color _getPriorityColor(Priority priority) {
-    switch (priority) {
-      case Priority.low:
-        return Colors.blue;
-      case Priority.medium:
-        return Colors.orange;
-      case Priority.high:
-        return Colors.red;
-      case Priority.none:
-        return Colors.grey;
-    }
+  Color _getPriorityColor(String priority) {
+    if (priority == Priority.low.name) {
+      return Colors.blue;
+    } else if (priority == Priority.medium.name) {
+      return Colors.orange;
+    } else if (priority == Priority.high.name) {
+      return Colors.red;
+    } else if (priority == Priority.none.name) {
+      return Colors.grey;
+    }else
+      return Colors.grey;
   }
 }

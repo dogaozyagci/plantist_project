@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:plantist_project/views/core/model/todo_model.dart';
+import 'package:get/get.dart';
+import 'package:plantist_project/views/todo/controller/todo_controller.dart';
+import 'package:plantist_project/views/todo/view/reminder_bottom_sheet.dart';
 import 'package:plantist_project/views/todo/view/todo_item.dart';
 
-class ToDoPage extends StatefulWidget {
-  const ToDoPage({Key? key}) : super(key: key);
+class ToDoPage extends StatelessWidget {
+  final ToDoController controller = Get.put(ToDoController());
 
-  @override
-  State<ToDoPage> createState() => _ToDoPageState();
-}
-
-class _ToDoPageState extends State<ToDoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,19 +30,34 @@ class _ToDoPageState extends State<ToDoPage> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return TodoItem(todo: todoList[index]);
-        },
-      ),
+      body: Obx(() {
+        if (controller.todoList.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return ListView.builder(
+          itemCount: controller.todoList.length,
+          itemBuilder: (context, index) {
+            return TodoItem(todo: controller.todoList[index]);
+          },
+        );
+      }),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: Container(
           height: 60,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                ),
+                builder: (BuildContext context) {
+                  return ReminderBottomSheet();
+                },
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
               onPrimary: Colors.white,
@@ -55,10 +67,8 @@ class _ToDoPageState extends State<ToDoPage> {
               ),
             ),
             child: const Text(
-              ' New Reminder + ',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              '+ New Reminder ',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
           ),
         ),
@@ -66,51 +76,3 @@ class _ToDoPageState extends State<ToDoPage> {
     );
   }
 }
-
-List<Todo>todoList = [
-  Todo(
-    title: 'Morning Jog',
-    note: 'Jog for 30 minutes in the park',
-    priority: Priority.medium,
-    dueDate: DateTime(2024, 7, 1),
-    category: 'Exercise',
-    tags: ['morning', 'health'],
-    optionalAttachment: "iloveyou",
-  ),
-  Todo(
-    title: 'Team Meeting',
-    note: 'Discuss project updates and next steps',
-    priority: Priority.high,
-    dueDate: DateTime(2024, 7, 2, 10, 0),
-    category: 'Work',
-    tags: ['meeting', 'project'],
-    optionalAttachment: 'path/to/meeting/agenda.pdf',
-  ),
-  Todo(
-    title: 'Grocery Shopping',
-    note: 'Buy vegetables, fruits, and milk',
-    priority: Priority.low,
-    dueDate: DateTime(2024, 7, 3),
-    category: 'Personal',
-    tags: ['shopping', 'groceries'],
-    optionalAttachment: "null",
-  ),
-  Todo(
-    title: 'Doctor Appointment',
-    note: 'Annual check-up with Dr. Smith',
-    priority: Priority.high,
-    dueDate: DateTime(2024, 7, 4, 14, 30),
-    category: 'Health',
-    tags: ['health', 'appointment'],
-    optionalAttachment: 'path/to/medical/records.pdf',
-  ),
-  Todo(
-    title: 'Read a Book',
-    note: 'Finish reading "The Great Gatsby"',
-    priority: Priority.low,
-    dueDate: DateTime(2024, 7, 5),
-    category: 'Leisure',
-    tags: ['reading', 'book'],
-    optionalAttachment: "null",
-  ),
-];

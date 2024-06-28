@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +6,8 @@ import 'package:plantist_project/views/login/view/login_view.dart';
 
 class SignUpController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   var isObscure = true.obs;
   var message = ''.obs;
 
@@ -14,6 +17,7 @@ class SignUpController extends GetxController {
         email: email,
         password: password,
       );
+      addUserToFirestore(userCredential);
       Get.to(() => SignInPage());
     } on FirebaseAuthException catch (e) {
       message.value = 'Failed to register: ${e.message}';
@@ -22,6 +26,16 @@ class SignUpController extends GetxController {
         e.message ?? "Unknown error",
         snackPosition: SnackPosition.BOTTOM,
       );
+    }
+  }
+
+
+  Future<void> addUserToFirestore(UserCredential userCredential) async {
+    try {
+      await _firestore.collection('users').doc(userCredential.user!.uid).set({'email': userCredential.user!.email});
+      print('Todo added successfully!');
+    } catch (e) {
+      print('Error adding todo: $e');
     }
   }
 }

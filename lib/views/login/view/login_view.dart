@@ -35,6 +35,8 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    emailController.text="dogaozyagci@icloud.com";
+    passwordController.text="dudu123";
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -98,6 +100,25 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
               )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      // todo: Forgot password
+                    },
+                    child: RichText(
+                      text: const TextSpan(
+                        text: "Forgot password?",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.lightBlue,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 10),
               SizedBox(
                 width: 350,
