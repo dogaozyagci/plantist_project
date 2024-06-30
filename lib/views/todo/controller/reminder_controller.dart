@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantist_project/views/core/model/todo_model.dart';
+import 'package:plantist_project/views/todo/controller/todo_controller.dart';
 
 class ReminderController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final ToDoController todoController = Get.put(ToDoController());
 
   var title = ''.obs;
   var note = ''.obs;
@@ -14,8 +16,7 @@ class ReminderController extends GetxController {
   var isCalendarEnabled = false.obs;
   var isTimeEnabled = false.obs;
   var selectedDate = DateTime.now().obs;
-  var selectedTime = const TimeOfDay(hour: 12, minute: 0).obs;
-
+  var selectedTime = TimeOfDay(hour: 12, minute: 00).obs;
 
   void updateTitle(String newTitle) {
     title.value = newTitle;
@@ -42,10 +43,8 @@ class ReminderController extends GetxController {
   }
 
   void updateSelectedTime(TimeOfDay time) {
-    selectedTime.value = time ;
+    selectedTime.value = time;
   }
-
-
 
   Future<void> addUserToFirestore(Todo todo) async {
     try {
@@ -54,10 +53,26 @@ class ReminderController extends GetxController {
           .doc(_auth.currentUser?.uid)
           .collection("todolist")
           .add(todo.toJson());
-      print('Todo added successfully!');
+      clearData();
+      todoController.fetchTodosToFirestore();
     } catch (e) {
-      print('Error adding todo: $e');
+      print('Error: $e');
     }
   }
 
+  String formatTimeHour(int hour, int minute) {
+    String hourStr = hour.toString().padLeft(2, '0');
+    String minuteStr = minute.toString().padLeft(2, '0');
+    return '$hourStr:$minuteStr';
+  }
+
+  void clearData(){
+    title = ''.obs;
+    note = ''.obs;
+    priority = 'none'.obs;
+    isCalendarEnabled = false.obs;
+    isTimeEnabled = false.obs;
+    selectedDate = DateTime.now().obs;
+    selectedTime = TimeOfDay(hour: 12, minute: 00).obs;
+  }
 }

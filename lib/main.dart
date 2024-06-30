@@ -28,7 +28,7 @@ class PlantistApp extends StatelessWidget {
         ),
         colorScheme: const ColorScheme.light(
           primary: Colors.white,
-          onPrimary: Colors.black,
+          onPrimary: Colors.white38,
           secondary: Colors.white,
           onSecondary: Colors.black,
           surface: Colors.white,

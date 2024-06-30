@@ -1,4 +1,5 @@
 class Todo {
+  final String id;
   final String title;
   final String note;
   final String priority;
@@ -9,6 +10,7 @@ class Todo {
   final String optionalAttachment;
 
   Todo({
+    required this.id,
     required this.title,
     required this.note,
     required this.priority,
@@ -19,16 +21,18 @@ class Todo {
     required this.optionalAttachment,
   });
 
-  factory Todo.fromJson(Map<String, dynamic> json) {
+  factory Todo.fromJson(Map<String, dynamic> json, String id) {
     return Todo(
-      title: json['title'] ?? "",
-      note: json['note'] ?? "",
-      priority: json['priority'] ?? "",
-      day: json['day'] ?? "",
-      hour: json['hour'] ?? "",
-      category: json['category'] ?? "",
-      tags: List<String>.from(json['tags']) ?? [],
-      optionalAttachment: json['optionalAttachment'] ?? "",
+      id: id,
+      title: json['title'],
+      note: json['note'],
+      priority: json['priority'],
+      day: json['day'],
+      hour: json['hour'],
+      category: json['category'],
+      tags: List<String>.from(json['tags']),
+      optionalAttachment: json['optionalAttachment'],
+
     );
   }
 
@@ -45,10 +49,10 @@ class Todo {
     };
   }
 }
-
 enum Priority {
   none,
   low,
   medium,
   high,
 }
+

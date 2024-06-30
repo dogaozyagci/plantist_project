@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:plantist_project/views/core/model/todo_model.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
 
-  TodoItem({required this.todo});
+  const TodoItem({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0.0,
-      shape: const RoundedRectangleBorder(
-        side: BorderSide.none,
-      ),
+      shape: const RoundedRectangleBorder(side: BorderSide.none),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //Priority circle
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: Container(
                     width: 24,
-                    height: 80,
+                    height: 45,
                     decoration: BoxDecoration(
-                      color: _getPriorityColor(todo.priority).withOpacity(0.5),
+                      color: _getPriorityColor(todo.priority).withOpacity(0.2),
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: _getPriorityColor(todo.priority),
@@ -39,10 +38,10 @@ class TodoItem extends StatelessWidget {
                 //Title & note
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3),
-                  child: Container(
+                      const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                  child: SizedBox(
                     width: 200,
-                    height: 95,
+                    height: 70,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -54,48 +53,40 @@ class TodoItem extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         //Reminder text
                         Text(
                           todo.note,
-                          style: TextStyle(fontSize: 13, color: Colors.black45),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.black45),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        //attachment
                         if (todo.optionalAttachment != null)
-                          Column(
-                            children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: Text('📎 Attachment',
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.black45)),
-                              ),
-                            ],
-                          ),
+                          const Text('📎 Attachment',
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.black45)),
                       ],
                     ),
                   ),
                 ),
                 //Date
                 Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Container(
+                  padding: const EdgeInsets.all(3.0),
+                  child: SizedBox(
                     width: 80,
-                    height: 80,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '${todo.day}',
-                          style: TextStyle(fontSize: 14, color: Colors.black45),
+                          DateFormat('dd.MM.yyyy').format(DateTime.parse(todo.day)),
+                          style: const TextStyle(fontSize: 14, color: Colors.black45),
                           maxLines: 1,
                         ),
                         Text(
-                          '${todo.hour}',
-                          style: TextStyle(fontSize: 14, color: Colors.black45),
-                        ),
-
+                          todo.hour,
+                          style: const TextStyle(fontSize: 14, color: Colors.black45),),
                         //Reminder text
                       ],
                     ),
@@ -104,11 +95,17 @@ class TodoItem extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(
-            color: Colors.grey,
+          Container(
+            alignment: Alignment.topRight,
             height: 1,
-            thickness: 1,
+            child: FractionallySizedBox(
+              widthFactor: 0.86,
+              child: Container(
+                color: Colors.grey,
+              ),
+            ),
           ),
+
         ],
       ),
     );
@@ -123,7 +120,7 @@ class TodoItem extends StatelessWidget {
       return Colors.red;
     } else if (priority == Priority.none.name) {
       return Colors.grey;
-    }else
+    } else
       return Colors.grey;
   }
 }
