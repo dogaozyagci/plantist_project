@@ -40,7 +40,6 @@ filter their TODOs based on different criteria.
 
 ## Screenshots
 
-![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 28](https://github.com/dogaozyagci/plantist_project/assets/75997342/e683a496-64bd-4786-9156-df8e28d8278d)
 ![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 21](https://github.com/dogaozyagci/plantist_project/assets/75997342/45b046ee-5368-4a70-b7a5-14d10c1f72d7)
 ![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 18](https://github.com/dogaozyagci/plantist_project/assets/75997342/213d42a1-5350-4af0-a49e-b46427b1df11)
 ![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 12](https://github.com/dogaozyagci/plantist_project/assets/75997342/e85df372-869c-4b30-a938-df8f7fbebb24)
