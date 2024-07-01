@@ -35,8 +35,7 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    emailController.text = "dogaozyagci@icloud.com";
-    passwordController.text = "dudu123";
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
