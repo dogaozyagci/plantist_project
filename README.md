@@ -37,3 +37,16 @@ date.
 authentication. Users should have the option to authenticate using biometrics.
 ● Search Functionality: Implement a search feature to allow users to search and
 filter their TODOs based on different criteria.
+
+## Screenshots
+
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 28](https://github.com/dogaozyagci/plantist_project/assets/75997342/e683a496-64bd-4786-9156-df8e28d8278d)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 21](https://github.com/dogaozyagci/plantist_project/assets/75997342/45b046ee-5368-4a70-b7a5-14d10c1f72d7)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 18](https://github.com/dogaozyagci/plantist_project/assets/75997342/213d42a1-5350-4af0-a49e-b46427b1df11)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 12](https://github.com/dogaozyagci/plantist_project/assets/75997342/e85df372-869c-4b30-a938-df8f7fbebb24)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 55 00](https://github.com/dogaozyagci/plantist_project/assets/75997342/f943ebe9-c24d-4354-bdff-f34e14b2c0ee)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 54 56](https://github.com/dogaozyagci/plantist_project/assets/75997342/12f9b8f7-ef1c-4df5-b6b5-c5242c30c4bb)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 53 05](https://github.com/dogaozyagci/plantist_project/assets/75997342/c181b37f-bc38-4cae-8935-8081f182dea3)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 52 56](https://github.com/dogaozyagci/plantist_project/assets/75997342/037b9be2-b10c-4e6a-99d6-8c9d0f7915ef)
+![Simulator Screenshot - iPhone 15 - 2024-07-01 at 22 52 53](https://github.com/dogaozyagci/plantist_project/assets/75997342/03c0c775-ed27-4de1-9521-ecdb032bb67f)
+
