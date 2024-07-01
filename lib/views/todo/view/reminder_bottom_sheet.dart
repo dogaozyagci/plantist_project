@@ -216,11 +216,11 @@ class ReminderBottomSheet extends StatelessWidget {
                                                         (BuildContext context) {
                                                       DateTime tempPickedDate =
                                                           DateTime.now();
-                                                      return Container(
+                                                      return SizedBox(
                                                         height: 300,
                                                         child: Column(
                                                           children: [
-                                                            Container(
+                                                            SizedBox(
                                                               height: 230,
                                                               child:
                                                                   CupertinoDatePicker(
@@ -269,8 +269,8 @@ class ReminderBottomSheet extends StatelessWidget {
                                 ),
                                 // time switch butonu
                                 Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 18.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 18.0),
                                   child: Container(
                                     child: Row(
                                       mainAxisAlignment:
@@ -433,7 +433,10 @@ class ReminderBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(
                                       left: 18.0, right: 18.0, top: 10.0),
                                   child: TextButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await controller.requestWritePermission();
+                                      await controller.uploadFile(context);
+                                    },
                                     style: TextButton.styleFrom(
                                       backgroundColor: Colors.grey[100],
                                       side: BorderSide(

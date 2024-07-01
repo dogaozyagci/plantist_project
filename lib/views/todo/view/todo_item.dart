@@ -80,13 +80,17 @@ class TodoItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          DateFormat('dd.MM.yyyy').format(DateTime.parse(todo.day)),
-                          style: const TextStyle(fontSize: 14, color: Colors.black45),
+                          DateFormat('dd.MM.yyyy')
+                              .format(DateTime.parse(todo.day)),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black45),
                           maxLines: 1,
                         ),
                         Text(
                           todo.hour,
-                          style: const TextStyle(fontSize: 14, color: Colors.black45),),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black45),
+                        ),
                         //Reminder text
                       ],
                     ),
@@ -105,7 +109,6 @@ class TodoItem extends StatelessWidget {
               ),
             ),
           ),
-
         ],
       ),
     );

@@ -47,14 +47,16 @@ class ToDoPage extends StatelessWidget {
         }).toList();
 
         // Sort filteredTodoList by date
-        filteredTodoList.sort((a, b) => DateTime.parse(a.day).compareTo(DateTime.parse(b.day)));
+        filteredTodoList.sort(
+            (a, b) => DateTime.parse(a.day).compareTo(DateTime.parse(b.day)));
 
         // Group todos by date
         List<List<Todo>> groupedTodos = [];
         String? lastDay;
         for (var todo in filteredTodoList) {
           DateTime todoDate = DateTime.parse(todo.day);
-          String currentDay = '${todoDate.day}.${todoDate.month}.${todoDate.year}';
+          String currentDay =
+              '${todoDate.day}.${todoDate.month}.${todoDate.year}';
           if (lastDay != currentDay) {
             lastDay = currentDay;
             groupedTodos.add([todo]);
@@ -69,7 +71,8 @@ class ToDoPage extends StatelessWidget {
             List<Todo> todos = groupedTodos[groupIndex];
 
             // Sort todos by color priority
-            todos.sort((a, b) => _getColorPriority(a.priority).compareTo(_getColorPriority(b.priority)));
+            todos.sort((a, b) => _getColorPriority(a.priority)
+                .compareTo(_getColorPriority(b.priority)));
 
             String dayTitle = '';
             if (todos.isNotEmpty) {
@@ -81,7 +84,8 @@ class ToDoPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 10.0),
                   child: Text(
                     dayTitle,
                     style: const TextStyle(fontSize: 15, color: Colors.grey),
@@ -106,7 +110,8 @@ class ToDoPage extends StatelessWidget {
                             showModalBottomSheet(
                               context: context,
                               shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(25.0)),
                               ),
                               builder: (BuildContext context) {
                                 return EditItemBottomSheet(todo: todo);
@@ -132,7 +137,6 @@ class ToDoPage extends StatelessWidget {
           },
         );
       }),
-
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: Container(
@@ -144,7 +148,8 @@ class ToDoPage extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(25.0)),
                 ),
                 builder: (BuildContext context) {
                   return ReminderBottomSheet();
@@ -171,9 +176,13 @@ class ToDoPage extends StatelessWidget {
 
   String _getFormattedDayTitle(DateTime date) {
     DateTime now = DateTime.now();
-    if (date.year == now.year && date.month == now.month && date.day == now.day) {
+    if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day) {
       return 'Today';
-    } else if (date.year == now.year && date.month == now.month && date.day == now.day + 1) {
+    } else if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day + 1) {
       return 'Tomorrow';
     } else {
       return '${date.day}.${date.month}.${date.year}';

@@ -1,44 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:plantist_project/views/login/view/login_view.dart';
-
-class SignUpController extends GetxController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  var isObscure = true.obs;
-  var message = ''.obs;
-
-  Future<void> signUp(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      addUserToFirestore(userCredential);
-      Get.to(() => SignInPage());
-    } on FirebaseAuthException catch (e) {
-      message.value = 'Failed to register: ${e.message}';
-      Get.snackbar(
-        "Registration Error",
-        e.message ?? "Unknown error",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-  }
-
-
-  Future<void> addUserToFirestore(UserCredential userCredential) async {
-    try {
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({'email': userCredential.user!.email});
-      print('Todo added successfully!');
-    } catch (e) {
-      print('Error adding todo: $e');
-    }
-  }
-}
+import 'package:plantist_project/views/signup/controller/signup_controller.dart';
 
 class SignUpPage extends StatelessWidget {
   final SignUpController signUpController = Get.put(SignUpController());
@@ -95,35 +57,40 @@ class SignUpPage extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               Obx(() => TextField(
-                controller: passwordController,
-                obscureText: signUpController.isObscure.value,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  filled: true,
-                  fillColor: Colors.white.withOpacity(0.3),
-                  border: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      signUpController.isObscure.value = !signUpController.isObscure.value;
-                    },
-                    icon: Icon(signUpController.isObscure.value ? Icons.visibility_off : Icons.visibility),
-                  ),
-                ),
-              )),
+                    controller: passwordController,
+                    obscureText: signUpController.isObscure.value,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.3),
+                      border: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          signUpController.isObscure.value =
+                              !signUpController.isObscure.value;
+                        },
+                        icon: Icon(signUpController.isObscure.value
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                      ),
+                    ),
+                  )),
               const SizedBox(height: 30),
               SizedBox(
                 width: 350,
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    signUpController.signUp(emailController.text, passwordController.text);
+                    signUpController.signUp(
+                        emailController.text, passwordController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black87,
                     onPrimary: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),

@@ -35,8 +35,8 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    emailController.text="dogaozyagci@icloud.com";
-    passwordController.text="dudu123";
+    emailController.text = "dogaozyagci@icloud.com";
+    passwordController.text = "dudu123";
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -83,23 +83,26 @@ class SignInPage extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               Obx(() => TextField(
-                controller: passwordController,
-                obscureText: authController.isObscure.value,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  filled: true,
-                  fillColor: Colors.white.withOpacity(0.3),
-                  border: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      authController.isObscure.value = !authController.isObscure.value;
-                    },
-                    icon: Icon(authController.isObscure.value ? Icons.visibility_off : Icons.visibility),
-                  ),
-                ),
-              )),
+                    controller: passwordController,
+                    obscureText: authController.isObscure.value,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.3),
+                      border: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          authController.isObscure.value =
+                              !authController.isObscure.value;
+                        },
+                        icon: Icon(authController.isObscure.value
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                      ),
+                    ),
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -125,12 +128,14 @@ class SignInPage extends StatelessWidget {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    authController.login(emailController.text, passwordController.text);
+                    authController.login(
+                        emailController.text, passwordController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                     onPrimary: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),

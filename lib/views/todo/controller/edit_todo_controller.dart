@@ -10,7 +10,6 @@ class EditTodoController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final ToDoController todoController = Get.put(ToDoController());
 
-
   var title = ''.obs;
   var note = ''.obs;
   var priority = 'none'.obs;
@@ -18,7 +17,6 @@ class EditTodoController extends GetxController {
   var isTimeEnabled = false.obs;
   var selectedDate = DateTime.now().obs;
   var selectedTime = TimeOfDay(hour: 12, minute: 00).obs;
-
 
   void updateTitle(String newTitle) {
     title.value = newTitle;
@@ -48,7 +46,7 @@ class EditTodoController extends GetxController {
     selectedTime.value = time;
   }
 
-  void initTodo(Todo todo){
+  void initTodo(Todo todo) {
     title = todo.title.obs;
     note = todo.note.obs;
     priority = todo.priority.obs;

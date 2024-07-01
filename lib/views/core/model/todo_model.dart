@@ -32,7 +32,6 @@ class Todo {
       category: json['category'],
       tags: List<String>.from(json['tags']),
       optionalAttachment: json['optionalAttachment'],
-
     );
   }
 
@@ -49,10 +48,10 @@ class Todo {
     };
   }
 }
+
 enum Priority {
   none,
   low,
   medium,
   high,
 }
-

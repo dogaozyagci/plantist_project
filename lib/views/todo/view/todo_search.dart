@@ -11,7 +11,7 @@ class TodoSearch extends SearchDelegate<Todo> {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           Navigator.pop(context);
         },

@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:plantist_project/views/core/model/todo_model.dart';
 import 'package:plantist_project/views/todo/controller/todo_controller.dart';
 
@@ -66,7 +69,7 @@ class ReminderController extends GetxController {
     return '$hourStr:$minuteStr';
   }
 
-  void clearData(){
+  void clearData() {
     title = ''.obs;
     note = ''.obs;
     priority = 'none'.obs;
@@ -74,5 +77,51 @@ class ReminderController extends GetxController {
     isTimeEnabled = false.obs;
     selectedDate = DateTime.now().obs;
     selectedTime = TimeOfDay(hour: 12, minute: 00).obs;
+  }
+
+  Future<void> uploadFile(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(withData: true, withReadStream: true);
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref('uploads/${file.name}')
+          .putData(file.bytes!);
+
+      TaskSnapshot taskSnapshot = await uploadTask;
+
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+      await FirebaseFirestore.instance.collection('uploads').add({
+        'url': downloadUrl,
+        'name': file.name,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('File uploaded: $downloadUrl')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('File can not selected')),
+      );
+    }
+  }
+
+  Future<void> requestWritePermission() async {
+    var status = await Permission.storage.status;
+    if (status.isGranted) {
+      print('File upload request already permit.');
+    } else if (status.isDenied) {
+      if (await Permission.storage.request().isGranted) {
+        print('File permission accepted');
+      } else {
+        print('File permission rejected');
+      }
+    } else if (status.isPermanentlyDenied) {
+      print('File permission permanently rejected');
+      openAppSettings();
+    }
   }
 }
