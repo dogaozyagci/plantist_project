@@ -3,8 +3,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:plantist_project/views/core/model/todo_model.dart';
 import 'package:plantist_project/views/todo/controller/todo_controller.dart';
+import 'package:plantist_project/views/todo/view/edit_item_bottom_sheet.dart';
 import 'package:plantist_project/views/todo/view/reminder_bottom_sheet.dart';
 import 'package:plantist_project/views/todo/view/todo_item.dart';
+import 'package:plantist_project/views/todo/view/todo_search.dart';
 
 class ToDoPage extends StatelessWidget {
   final ToDoController controller = Get.put(ToDoController());
@@ -27,24 +29,30 @@ class ToDoPage extends StatelessWidget {
             icon: const Icon(Icons.search),
             iconSize: 32,
             onPressed: () {
-              // Handle search action
+              showSearch(context: context, delegate: TodoSearch(controller));
             },
           ),
         ],
       ),
-
       body: Obx(() {
         if (controller.todoList.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        // Sort todoList by date
-        controller.todoList.sort((a, b) => DateTime.parse(a.day).compareTo(DateTime.parse(b.day)));
+        // Filter out todos before today
+        DateTime today = DateTime.now();
+        List<Todo> filteredTodoList = controller.todoList.where((todo) {
+          DateTime todoDate = DateTime.parse(todo.day);
+          return todoDate.isAfter(today.subtract(Duration(days: 1)));
+        }).toList();
+
+        // Sort filteredTodoList by date
+        filteredTodoList.sort((a, b) => DateTime.parse(a.day).compareTo(DateTime.parse(b.day)));
 
         // Group todos by date
         List<List<Todo>> groupedTodos = [];
         String? lastDay;
-        for (var todo in controller.todoList) {
+        for (var todo in filteredTodoList) {
           DateTime todoDate = DateTime.parse(todo.day);
           String currentDay = '${todoDate.day}.${todoDate.month}.${todoDate.year}';
           if (lastDay != currentDay) {
@@ -59,6 +67,10 @@ class ToDoPage extends StatelessWidget {
           itemCount: groupedTodos.length,
           itemBuilder: (context, groupIndex) {
             List<Todo> todos = groupedTodos[groupIndex];
+
+            // Sort todos by color priority
+            todos.sort((a, b) => _getColorPriority(a.priority).compareTo(_getColorPriority(b.priority)));
+
             String dayTitle = '';
             if (todos.isNotEmpty) {
               DateTime groupDate = DateTime.parse(todos.first.day);
@@ -91,7 +103,15 @@ class ToDoPage extends StatelessWidget {
                           foregroundColor: Colors.white,
                           icon: Icons.edit,
                           onTap: () {
-                            // Handle edit action
+                            showModalBottomSheet(
+                              context: context,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                              ),
+                              builder: (BuildContext context) {
+                                return EditItemBottomSheet(todo: todo);
+                              },
+                            );
                           },
                         ),
                         IconSlideAction(
@@ -157,6 +177,21 @@ class ToDoPage extends StatelessWidget {
       return 'Tomorrow';
     } else {
       return '${date.day}.${date.month}.${date.year}';
+    }
+  }
+
+  int _getColorPriority(String name) {
+    switch (name) {
+      case 'high':
+        return 1;
+      case 'medium':
+        return 2;
+      case 'low':
+        return 3;
+      case 'none':
+        return 4;
+      default:
+        return 5;
     }
   }
 }

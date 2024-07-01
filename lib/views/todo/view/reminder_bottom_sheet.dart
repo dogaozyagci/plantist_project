@@ -85,7 +85,7 @@ class ReminderBottomSheet extends StatelessWidget {
                 // title text
                 Padding(
                   padding:
-                  const EdgeInsets.only(left: 18.0, right: 18.0, top: 18.0),
+                      const EdgeInsets.only(left: 18.0, right: 18.0, top: 18.0),
                   child: TextField(
                     onChanged: controller.updateTitle,
                     decoration: InputDecoration(
@@ -93,14 +93,16 @@ class ReminderBottomSheet extends StatelessWidget {
                       filled: true,
                       fillColor: Colors.white.withOpacity(0.3),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.withOpacity(0.5)),
+                        borderSide:
+                            BorderSide(color: Colors.grey.withOpacity(0.5)),
                       ),
                     ),
                   ),
                 ),
                 // notes text
                 Padding(
-                  padding: const EdgeInsets.only(left: 18.0, right: 18.0, top: 8.0),
+                  padding:
+                      const EdgeInsets.only(left: 18.0, right: 18.0, top: 8.0),
                   child: TextField(
                     onChanged: controller.updateNotes,
                     maxLines: 6,
@@ -110,7 +112,7 @@ class ReminderBottomSheet extends StatelessWidget {
                       fillColor: Colors.white.withOpacity(0.3),
                       enabledBorder: UnderlineInputBorder(
                         borderSide:
-                        BorderSide(color: Colors.white.withOpacity(0.5)),
+                            BorderSide(color: Colors.white.withOpacity(0.5)),
                       ),
                     ),
                   ),
@@ -124,16 +126,17 @@ class ReminderBottomSheet extends StatelessWidget {
                         context: context,
                         shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(25.0)),
+                              BorderRadius.vertical(top: Radius.circular(25.0)),
                         ),
                         builder: (BuildContext context) {
-                          double height = MediaQuery.of(context).size.height * 0.75;
+                          double height =
+                              MediaQuery.of(context).size.height * 0.75;
                           return Container(
                             height: height,
                             decoration: const BoxDecoration(
                               color: Colors.white,
-                              borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(10.0)),
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(10.0)),
                             ),
                             child: Column(
                               children: [
@@ -143,7 +146,7 @@ class ReminderBottomSheet extends StatelessWidget {
                                       horizontal: 16.0, vertical: 10.0),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       TextButton(
                                         onPressed: () {
@@ -165,21 +168,21 @@ class ReminderBottomSheet extends StatelessWidget {
                                             fontWeight: FontWeight.w600),
                                       ),
                                       Obx(() => TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          'Add',
-                                          style: TextStyle(
-                                            color: controller
-                                                .title.value.isNotEmpty
-                                                ? Colors.blue
-                                                : Colors.grey,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      )),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              'Add',
+                                              style: TextStyle(
+                                                color: controller
+                                                        .title.value.isNotEmpty
+                                                    ? Colors.blue
+                                                    : Colors.grey,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          )),
                                     ],
                                   ),
                                 ),
@@ -195,125 +198,135 @@ class ReminderBottomSheet extends StatelessWidget {
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('📆 Date',
                                             style: TextStyle(fontSize: 16)),
                                         Obx(() => CupertinoSwitch(
-                                          value: controller
-                                              .isCalendarEnabled.value,
-                                          onChanged: (value) {
-                                            controller
-                                                .updateCalendarEnabled(value);
-                                            if (value) {
-                                              showModalBottomSheet(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  DateTime tempPickedDate =
-                                                  DateTime.now();
-                                                  return Container(
-                                                    height: 300,
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          height: 230,
-                                                          child:
-                                                          CupertinoDatePicker(
-                                                            initialDateTime:
-                                                            DateTime.now(),
-                                                            mode:
-                                                            CupertinoDatePickerMode
-                                                                .date,
-                                                            onDateTimeChanged:
-                                                                (DateTime
-                                                            newDateTime) {
-                                                              tempPickedDate =
-                                                                  newDateTime;
-                                                            },
-                                                          ),
+                                              value: controller
+                                                  .isCalendarEnabled.value,
+                                              onChanged: (value) {
+                                                controller
+                                                    .updateCalendarEnabled(
+                                                        value);
+                                                if (value) {
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      DateTime tempPickedDate =
+                                                          DateTime.now();
+                                                      return Container(
+                                                        height: 300,
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              height: 230,
+                                                              child:
+                                                                  CupertinoDatePicker(
+                                                                initialDateTime:
+                                                                    DateTime
+                                                                        .now(),
+                                                                mode:
+                                                                    CupertinoDatePickerMode
+                                                                        .date,
+                                                                onDateTimeChanged:
+                                                                    (DateTime
+                                                                        newDateTime) {
+                                                                  tempPickedDate =
+                                                                      newDateTime;
+                                                                },
+                                                              ),
+                                                            ),
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                controller
+                                                                    .updateSelectedDate(
+                                                                        tempPickedDate);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary:
+                                                                    Colors.grey,
+                                                              ),
+                                                              child: const Text(
+                                                                  'Tamam'),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        ElevatedButton(
-                                                          onPressed: () {
-                                                            controller
-                                                                .updateSelectedDate(
-                                                                tempPickedDate);
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary:
-                                                            Colors.grey,
-                                                          ),
-                                                          child: const Text(
-                                                              'Tamam'),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                      );
+                                                    },
                                                   );
-                                                },
-                                              );
-                                            }
-                                          },
-                                        )),
+                                                }
+                                              },
+                                            )),
                                       ],
                                     ),
                                   ),
                                 ),
                                 // time switch butonu
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 18.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 18.0),
                                   child: Container(
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('⏰ Time',
                                             style: TextStyle(fontSize: 16)),
                                         Obx(() => CupertinoSwitch(
-                                          value: controller.isTimeEnabled.value,
-                                          onChanged: (value) async {
-                                            controller.updateTimeEnabled(value);
-                                            if (value) {
-                                              final pickedTime =
-                                              await showTimePicker(
-                                                  context: context,
-                                                  initialTime: controller
-                                                      .selectedTime.value,
-                                                  builder:
-                                                      (BuildContext context,
-                                                      Widget? child) {
-                                                    return Theme(
-                                                      data:
-                                                      Theme.of(context)
-                                                          .copyWith(
-                                                        colorScheme:
-                                                        const ColorScheme
-                                                            .light(
-                                                          primary:
-                                                          Colors.black,
-                                                        ),
-                                                        buttonTheme:
-                                                        const ButtonThemeData(
-                                                            textTheme:
-                                                            ButtonTextTheme
-                                                                .primary),
-                                                      ),
-                                                      child: child!,
-                                                    );
-                                                  });
-                                              if (pickedTime != null) {
-                                                controller.updateSelectedTime(
-                                                    pickedTime);
-                                              } else {
-                                                controller.updateSelectedTime(
-                                                    const TimeOfDay(
-                                                        hour: 12, minute: 0));
-                                              }
-                                            }
-                                          },
-                                        )),
+                                              value: controller
+                                                  .isTimeEnabled.value,
+                                              onChanged: (value) async {
+                                                controller
+                                                    .updateTimeEnabled(value);
+                                                if (value) {
+                                                  final pickedTime =
+                                                      await showTimePicker(
+                                                          context: context,
+                                                          initialTime:
+                                                              controller
+                                                                  .selectedTime
+                                                                  .value,
+                                                          builder: (BuildContext
+                                                                  context,
+                                                              Widget? child) {
+                                                            return Theme(
+                                                              data: Theme.of(
+                                                                      context)
+                                                                  .copyWith(
+                                                                colorScheme:
+                                                                    const ColorScheme
+                                                                        .light(
+                                                                  primary: Colors
+                                                                      .black,
+                                                                ),
+                                                                buttonTheme: const ButtonThemeData(
+                                                                    textTheme:
+                                                                        ButtonTextTheme
+                                                                            .primary),
+                                                              ),
+                                                              child: child!,
+                                                            );
+                                                          });
+                                                  if (pickedTime != null) {
+                                                    controller
+                                                        .updateSelectedTime(
+                                                            pickedTime);
+                                                  } else {
+                                                    controller
+                                                        .updateSelectedTime(
+                                                            const TimeOfDay(
+                                                                hour: 12,
+                                                                minute: 0));
+                                                  }
+                                                }
+                                              },
+                                            )),
                                       ],
                                     ),
                                   ),
@@ -327,9 +340,10 @@ class ReminderBottomSheet extends StatelessWidget {
                                       showModalBottomSheet(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          double height =
-                                              MediaQuery.of(context).size.height *
-                                                  0.75;
+                                          double height = MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.75;
                                           return SizedBox(
                                             height: height,
                                             child: Column(
@@ -354,8 +368,8 @@ class ReminderBottomSheet extends StatelessWidget {
                                                 ListTile(
                                                   title: const Text('Medium'),
                                                   onTap: () {
-                                                    controller
-                                                        .updatePriority('medium');
+                                                    controller.updatePriority(
+                                                        'medium');
                                                     Navigator.pop(context);
                                                   },
                                                 ),
@@ -382,15 +396,15 @@ class ReminderBottomSheet extends StatelessWidget {
                                           vertical: 15.0, horizontal: 20.0),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10.0)),
+                                              BorderRadius.circular(10.0)),
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text('Priority',
                                                 style: TextStyle(
@@ -400,7 +414,7 @@ class ReminderBottomSheet extends StatelessWidget {
                                         ),
                                         Row(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                              CrossAxisAlignment.end,
                                           children: [
                                             Text(controller.priority.string,
                                                 style: const TextStyle(
@@ -429,15 +443,15 @@ class ReminderBottomSheet extends StatelessWidget {
                                           vertical: 15.0, horizontal: 20.0),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10.0)),
+                                              BorderRadius.circular(10.0)),
                                     ),
                                     child: const Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text('Attach a file',
                                                 style: TextStyle(
@@ -447,7 +461,7 @@ class ReminderBottomSheet extends StatelessWidget {
                                         ),
                                         Row(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                              CrossAxisAlignment.end,
                                           children: [
                                             Text('None 📎',
                                                 style: TextStyle(
@@ -468,8 +482,8 @@ class ReminderBottomSheet extends StatelessWidget {
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.grey[100],
-                      side:
-                      BorderSide(color: Colors.grey.withOpacity(0.5), width: 1),
+                      side: BorderSide(
+                          color: Colors.grey.withOpacity(0.5), width: 1),
                       padding: const EdgeInsets.symmetric(
                           vertical: 15.0, horizontal: 20.0),
                       shape: RoundedRectangleBorder(
@@ -482,10 +496,11 @@ class ReminderBottomSheet extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Details',
-                                style:
-                                TextStyle(color: Colors.black, fontSize: 14)),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 14)),
                             Text('Today',
-                                style: TextStyle(color: Colors.grey, fontSize: 12)),
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 12)),
                           ],
                         ),
                         Column(
@@ -500,7 +515,6 @@ class ReminderBottomSheet extends StatelessWidget {
                 ),
               ],
             ),
-
           ],
         ),
       ),
